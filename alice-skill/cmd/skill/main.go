@@ -1,15 +1,20 @@
 package main
 
-import "net/http"
+import (
+	"fmt"
+	"net/http"
+)
 
 func main() {
+	parseFlags()
 	if err := run(); err != nil {
 		panic(err)
 	}
 }
 
 func run() error {
-	return http.ListenAndServe(`:8080`, http.HandlerFunc(webhook))
+	fmt.Println("\"Running\" server on", flagRunAddr)
+	return http.ListenAndServe(flagRunAddr, http.HandlerFunc(webhook))
 }
 
 func webhook(w http.ResponseWriter, r *http.Request) {
